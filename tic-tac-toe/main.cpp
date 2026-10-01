@@ -2,6 +2,7 @@
 #include <stdlib.h> 
 #include <vector>
 #include <string>
+#include <limits>
 using namespace std;
 
 const int rows = 3;
@@ -16,17 +17,26 @@ void displayBoard(char** arr){
 	std::cout << "*---*---*---*\n";
 }
 
-void askPosition(char** array, string player, char value){
+bool askPosition(char** array, string player, char value){
+	while(true){
+		std::cout << player << ", Please choose your play index...";
+		int pos;
+		if(!(std::cin >> pos)){
+			if(std::cin.eof())
+				return false;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Invalid input. Please enter a number from 0 to 8.\n";
+			continue;
+		}
+		if(pos < 0 || pos > 8 || array[pos/columns][pos%columns] == 'X' || array[pos/columns][pos%columns] == 'O'){
+			std::cout << "Invalid position please select a free number from the board...\n";
+			continue;
+		}
 
-	std::cout << player << ", Please choose your play index...";
-	int pos;
-	std::cin >> pos;
-	while((0 > pos || pos > 8)){
-		std::cout << "Invalid position please select a free number from the board...";
-		std::cin >> pos;
+		array[pos/columns][pos%columns] = value;
+		return true;
 	}
-
-	array[pos/columns][pos%columns] = value;
 }
 
 bool iSGameOn(char** array){
@@ -116,19 +126,21 @@ int main(){
 	int moves = 0;
 	while(true)
 	{
-		askPosition(gameBoard, name1, 'X');
-		displayBoard(gameBoard);
-		if(!iSGameOn(gameBoard) || checkWin(gameBoard, name1, 'X'))
+		if(!askPosition(gameBoard, name1, 'X'))
 			break;
-		askPosition(gameBoard, name2, 'O');
 		displayBoard(gameBoard);
-		if(!iSGameOn(gameBoard) || checkWin(gameBoard, name2, 'O'))
+		if(checkWin(gameBoard, name1, 'X') || !iSGameOn(gameBoard))
+			break;
+		if(!askPosition(gameBoard, name2, 'O'))
+			break;
+		displayBoard(gameBoard);
+		if(checkWin(gameBoard, name2, 'O') || !iSGameOn(gameBoard))
 			break;
 	}
 
 
 	//Free each sub-array
-	for(int i = 0; i < 5; ++i) {
+	for(int i = 0; i < 3; ++i) {
 		delete[] gameBoard[i];   
 	}
 	delete []gameBoard;
