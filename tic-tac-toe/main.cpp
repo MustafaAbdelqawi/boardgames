@@ -21,16 +21,16 @@ void displayCell(char cell){
 void displayBoard(char** arr){
 
 	for(int i = 0; i < rows; ++i){
-		std::cout << "*---*---*---*\n";
-		std::cout << "* ";
+		std::cout << "+---+---+---+\n";
+		std::cout << "| ";
 		displayCell(arr[i][0]);
 		std::cout << " | ";
 		displayCell(arr[i][1]);
 		std::cout << " | ";
 		displayCell(arr[i][2]);
-		std::cout << " *\n";
+		std::cout << " |\n";
 	}
-	std::cout << "*---*---*---*\n";
+	std::cout << "+---+---+---+\n";
 }
 
 bool askPosition(char** array, string player, char value){
