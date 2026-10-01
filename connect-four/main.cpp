@@ -15,6 +15,16 @@ constexpr int DirectionCount = 4;
 
 using Board = std::array<std::array<char, BoardColumns>, BoardRows>;
 
+void displayCell(char cell){
+	if (cell == PlayerOneSymbol) {
+		std::cout << "\033[31m●\033[0m";
+	} else if (cell == PlayerTwoSymbol) {
+		std::cout << "\033[33m●\033[0m";
+	} else {
+		std::cout << cell;
+	}
+}
+
 bool hasNonWhitespace(const std::string& text){
 	return std::any_of(text.begin(), text.end(), [](unsigned char character){
 		return !std::isspace(character);
@@ -23,12 +33,13 @@ bool hasNonWhitespace(const std::string& text){
 
 void displayBoard(const Board& board){
 	for (int column = 1; column <= BoardColumns; ++column) {
-		std::cout << column << "\t";
+		std::cout << column << "    ";
 	}
 	std::cout << '\n';
 	for (int rowIndex = 0; rowIndex < BoardRows; ++rowIndex) {
 		for (int columnIndex = 0; columnIndex < BoardColumns; ++columnIndex) {
-			std::cout << board[rowIndex][columnIndex] << "\t";
+			displayCell(board[rowIndex][columnIndex]);
+			std::cout << "    ";
 		}
 		std::cout << '\n';
 	}
