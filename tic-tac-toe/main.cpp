@@ -8,11 +8,27 @@ using namespace std;
 const int rows = 3;
 const int columns = 3;
 
+void displayCell(char cell){
+	if (cell == 'X') {
+		std::cout << "\033[31m●\033[0m";
+	} else if (cell == 'O') {
+		std::cout << "\033[33m●\033[0m";
+	} else {
+		std::cout << cell;
+	}
+}
+
 void displayBoard(char** arr){
 
 	for(int i = 0; i < rows; ++i){
 		std::cout << "*---*---*---*\n";
-		std::cout << "* " << arr[i][0] << " | " << arr[i][1] << " | " << arr[i][2] << " *\n";
+		std::cout << "* ";
+		displayCell(arr[i][0]);
+		std::cout << " | ";
+		displayCell(arr[i][1]);
+		std::cout << " | ";
+		displayCell(arr[i][2]);
+		std::cout << " *\n";
 	}
 	std::cout << "*---*---*---*\n";
 }
